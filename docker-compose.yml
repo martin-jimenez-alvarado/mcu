@@ -54,7 +54,7 @@ services:
       - mscharacters
       - mscollaborators
     ports:
-      - '1111:1111'
+      - '80:80'
     environment:
       CONSUL_HOST: discovery
     restart: always
