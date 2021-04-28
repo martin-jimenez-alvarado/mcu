@@ -19,7 +19,7 @@ public class JobImp {
 		this.collaborator = collaborator;
 	}
 	
-	@Scheduled(cron = "* 1 * * * ?")
+	@Scheduled(cron = "* 1 * * * *")
 	public  void updateCollaborators() {		
 		collaborator.getAllCollaborator()
 			.flatMap(s -> 
