@@ -1,0 +1,14 @@
+#!/bin/bash
+cd gateway
+chmod +x gradlew
+./gradlew clean build
+cd ..
+cd ms-characters
+chmod +x gradlew
+./gradlew clean build
+cd ..
+cd ms-collaborators
+chmod +x gradlew
+./gradlew clean build
+cd ..
+docker-compose up --build

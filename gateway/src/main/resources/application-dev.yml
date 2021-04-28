@@ -1,0 +1,64 @@
+server:
+  port: 80
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+            - GET
+            - POST
+            - DELETE
+            - PUT
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: ms-collaborators
+          uri: lb://ms-collaborators
+          predicates: Path=/marvel/collaborators/**
+        - id: ms-characters
+          uri: lb://ms-characters
+          predicates: Path=/marvel/characters/**
+    consul:
+      host: ${CONSUL_HOST}
+      port: 8500
+      discovery:
+        instanceId: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+        deregister: true
+        health-check-tls-skip-verify: true
+        healthCheckPath: /actuator/health
+        healthCheckInterval: 15s
+        prefer-ip-address: true
+        scheme: http
+    loadbalancer:
+      ribbon:
+        enabled: false
+springdoc:
+  api-docs:
+    path: /l
+management:
+  endpoint:
+    health:
+      enabled: true
+    restart:
+      enabled: true
+    info:
+      enabled: true
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled:
+          true
+  endpoints:
+    web:
+      exposure:
+        include: "*"

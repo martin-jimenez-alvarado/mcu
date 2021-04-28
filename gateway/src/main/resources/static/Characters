@@ -1,0 +1,48 @@
+openapi: 3.0.1
+info:
+  title: Characters B
+  version: v0
+servers:
+  - url: 'http://test.albo.mx:80'
+    description: Generated server url
+paths:
+  '/marvel/characters/{superhero}':
+    get:
+      tags:
+        - character-controller
+      operationId: fetchCharacters
+      parameters:
+        - name: superhero
+          in: path
+          description: superhero
+          required: true
+          schema:
+            type: string
+          example: Magneto
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CharacterssDTO'
+components:
+  schemas:
+    CharacterssDTO:
+      type: object
+      properties:
+        last_sync:
+          type: string
+        info:
+          type: array
+          items:
+            $ref: '#/components/schemas/ComicDTO'
+    ComicDTO:
+      type: object
+      properties:
+        comic:
+          type: string
+        characters:
+          type: array
+          items:
+            type: string

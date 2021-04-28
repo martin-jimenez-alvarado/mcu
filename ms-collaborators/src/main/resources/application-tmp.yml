@@ -1,0 +1,25 @@
+api-marvel: https://gateway.marvel.com:443
+MD5-key: "&ts=1&apikey=75708bbccc1cdc1c3dc693bc71c1d154&hash=e2a7b31b4f89ea897315dae16b05a7a7"
+server:
+  port: 81
+spring:
+  application:
+    name: ms-collaborators
+  data:
+    mongodb:
+      host: ${MONGO_HOST}
+      port: 27017
+      database: ${MONGO_DATABASE}
+      username: ${MONGO_USERNAME}
+      password: ${MONGO_PASSWORD}
+      authentication-database: ${MONGO_AUTHSOURCE}
+  cloud:
+    discovery:
+      enabled: false
+    consul:
+      enabled: false
+      discovery:
+        enabled: false
+    loadbalancer:
+      ribbon:
+        enabled: false

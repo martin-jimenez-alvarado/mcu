@@ -1,0 +1,51 @@
+openapi: 3.0.1
+info:
+  title: Collaboratos A
+  version: v0
+servers:
+  - url: 'http://test.albo.mx:80'
+    description: Generated server url
+paths:
+  '/marvel/collaborators/{superhero}':
+    get:
+      tags:
+        - collaborator-controller
+      summary: Fetch Superhero
+      description: >-
+        Fetch a list of editors, colorists, and writers, involved in the
+        character's comics
+      operationId: fetchCollaborators
+      parameters:
+        - name: superhero
+          in: path
+          description: superhero
+          required: true
+          schema:
+            type: string
+          example: Magneto
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CollaboratorDTO'
+components:
+  schemas:
+    CollaboratorDTO:
+      type: object
+      properties:
+        last_sync:
+          type: string
+        editors:
+          type: array
+          items:
+            type: string
+        writers:
+          type: array
+          items:
+            type: string
+        colorists:
+          type: array
+          items:
+            type: string

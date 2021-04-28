@@ -1,0 +1,60 @@
+version: '3.3'
+services:
+#========================== CONSUL =================================
+  discovery:
+    image: consul:1.9.3
+    container_name: discovery
+    volumes:
+      - ./consul.json:/consul/config/consul.json
+    ports:
+      - '8500:8500'
+    command: "agent"
+    restart: always
+#========================== MONGO ==================================
+  mongodb:
+    image: mongo:4.4.5
+    container_name: mongodb
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo
+      MONGO_INITDB_ROOT_PASSWORD: M0n6o65
+      MONGO_INITDB_DATABASE: collaborators
+    restart: always
+#========================== SPRING CHARACTERS ======================
+  mscharacters:
+    build: ms-characters
+    container_name: characters
+    depends_on:
+      - discovery
+    environment:
+      CONSUL_HOST: discovery
+    restart: always
+#========================== SPRING COLLABORATORS ===================
+  mscollaborators:
+    build: ms-collaborators
+    container_name: collaborators
+    depends_on:
+      - discovery
+      - mongodb
+    environment:
+      CONSUL_HOST: discovery
+      MONGO_HOST: mongodb
+      MONGO_DATABASE: collaborators
+      MONGO_USERNAME: mongo
+      MONGO_PASSWORD: M0n6o65
+      MONGO_AUTHSOURCE: admin
+    restart: always
+#========================== SPRING GATEWAY =========================
+  msgateway:
+    build: gateway
+    container_name: gateway
+    depends_on:
+      - discovery
+      - mscharacters
+      - mscollaborators
+    ports:
+      - '1111:1111'
+    environment:
+      CONSUL_HOST: discovery
+    restart: always

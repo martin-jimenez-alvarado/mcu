@@ -1,0 +1,45 @@
+#api-marvel: https://gateway.marvel.com:443
+#MD5-key: "&ts=1&apikey=fb72e1a3d9c62ebd655fd25ea244dda2&hash=1ff7303117d492a5641842c79708d151"
+api-marvel: https://gateway.marvel.com:443
+MD5-key: "&ts=1&apikey=75708bbccc1cdc1c3dc693bc71c1d154&hash=e2a7b31b4f89ea897315dae16b05a7a7"
+server:
+  port: 0
+spring:
+  application:
+    name: ms-characters
+  cloud:
+    consul:
+      host: ${CONSUL_HOST}
+      port: 8500
+      discovery:
+        instanceId: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+        deregister: true
+        health-check-tls-skip-verify: true
+        healthCheckPath: /actuator/health
+        healthCheckInterval: 15s
+        prefer-ip-address: true
+        scheme: http
+    loadbalancer:
+      ribbon:
+        enabled: false
+management:
+  endpoint:
+    health:
+      enabled: true
+    restart:
+      enabled: true
+    info:
+      enabled: true
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled:
+          true
+  endpoints:
+    web:
+      exposure:
+        include: "*"

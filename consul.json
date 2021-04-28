@@ -1,0 +1,19 @@
+{
+    "datacenter": "dc1",
+    "data_dir": "/opt/consul",
+    "log_level": "INFO",
+    "node_name": "test",
+    "server": true,
+    "bootstrap": true,
+    "client_addr": "0.0.0.0",
+    "retry_interval": "15s",
+    "bind_addr": "0.0.0.0",
+    "ui_config": {
+        "enabled": true,
+        "metrics_provider": "prometheus"
+    },
+    "telemetry": {
+        "prometheus_retention_time": "72h",
+        "disable_hostname": true
+    }
+}
